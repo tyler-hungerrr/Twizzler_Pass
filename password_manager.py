@@ -1,4 +1,4 @@
-from cryptography.fernet import Fernet #import cryptography
+from cryptography.fernet import Fernet  # import cryptography
 
 '''
 def write_key(): #write a key
@@ -8,7 +8,7 @@ def write_key(): #write a key
 
 write_key()'''
 
-def load_key(): #load a key
+def load_key(): # load a key
     file = open("key.key", "rb")
     key = file.read()
     file.close()
@@ -17,21 +17,23 @@ def load_key(): #load a key
 key = load_key()
 fer = Fernet(key)
 
-def new(): #add a new password
+def new():  # add a new password
     domain = input("Domain: ")
     username = input("Account Name/Email: ")
     pwd = input("Password: ")
 
     with open("password.txt", "a") as f:
-        f.write(domain + "|" + fer.encrypt(username.encode()).decode() + "|" + fer.encrypt(pwd.encode()).decode() + "\n")
+        f.write(domain + "|" + fer.encrypt(username.encode()).decode() + "|"
+                + fer.encrypt(pwd.encode()).decode() + "\n")    # writes passwords to file
 
-def view(): #view passwords
+def view():  # view passwords
     with open("password.txt", "r") as f:
         for line in f.readlines():
             data = line.rstrip()
             domain, user, passw = data.split("|")
-            print("Domain:", domain, "| User:",
+            print("Domain:", domain, "| User:",  # decrypts and displays passwords from file
                   fer.decrypt(user.encode()).decode(), "| Password:", fer.decrypt(passw.encode()).decode())
+
 
 while True:
     mode = input("Would you like to add a new password or view existing ones (new,view), press q to quit: ").lower()
